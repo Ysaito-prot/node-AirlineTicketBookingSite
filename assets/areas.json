@@ -1,0 +1,115 @@
+[
+  {
+    "region": "主要な空港",
+    "points": [
+      { "point": "東京(羽田)", "alf": "HND" },
+      { "point": "東京(成田)", "alf": "NRT" },
+      { "point": "大阪全て", "alf": "OSK" },
+      { "point": "大阪(伊丹)", "alf": "ITM" },
+      { "point": "大阪(関西)", "alf": "KIX" },
+      { "point": "大阪(神戸)", "alf": "UKB" },
+      { "point": "札幌(千歳)", "alf": "SPK" }
+    ]
+  },
+  {
+    "region": "北海道",
+    "points": [
+      { "point": "札幌(千歳)", "alf": "SPK" },
+      { "point": "利尻", "alf": "RIS" },
+      { "point": "稚内", "alf": "WKJ" },
+      { "point": "オホーツク紋別", "alf": "MBE" },
+      { "point": "女満別", "alf": "MMB" },
+      { "point": "旭川", "alf": "AKJ" },
+      { "point": "根室中標津", "alf": "SHB" },
+      { "point": "釧路", "alf": "KUH" },
+      { "point": "帯広", "alf": "OBO" },
+      { "point": "函館", "alf": "HKD" }
+    ]
+  },
+  {
+    "region": "東北",
+    "points": [
+      { "point": "青森", "alf": "AOJ" },
+      { "point": "大館能代", "alf": "ONJ" },
+      { "point": "秋田", "alf": "AXT" },
+      { "point": "庄内", "alf": "SYO" },
+      { "point": "仙台", "alf": "SDJ" },
+      { "point": "福島", "alf": "FKS" }
+    ]
+  },
+  {
+    "region": "関東・甲信越",
+    "points": [
+      { "point": "東京(羽田)", "alf": "HND" },
+      { "point": "東京(成田)", "alf": "NRT" },
+      { "point": "八丈島", "alf": "HAC" },
+      { "point": "新潟", "alf": "KIJ" }
+    ]
+  },
+  {
+    "region": "北陸・東海",
+    "points": [
+      { "point": "静岡", "alf": "FSZ" },
+      { "point": "名古屋(中部)", "alf": "NGO" },
+      { "point": "富山", "alf": "TOY" },
+      { "point": "小松", "alf": "KMQ" },
+      { "point": "能登", "alf": "NTQ" }
+    ]
+  },
+  {
+    "region": "関西",
+    "points": [
+      { "point": "大阪全て", "alf": "OSA" },
+      { "point": "大阪(伊丹)", "alf": "ITM" },
+      { "point": "大阪(関西)", "alf": "KIX" },
+      { "point": "大阪(神戸)", "alf": "UKB" }
+    ]
+  },
+  {
+    "region": "中国・四国",
+    "points": [
+      { "point": "岡山", "alf": "OKJ" },
+      { "point": "広島・岩国", "alf": "HIK" },
+      { "point": "広島", "alf": "HIJ" },
+      { "point": "岩国", "alf": "IWK" },
+      { "point": "山口宇部", "alf": "UBJ" },
+      { "point": "鳥取", "alf": "TTJ" },
+      { "point": "米子", "alf": "YGJ" },
+      { "point": "萩・石見", "alf": "IWJ" },
+      { "point": "高松", "alf": "TAK" },
+      { "point": "徳島", "alf": "TKS" }
+    ]
+  },
+  {
+    "region": "九州",
+    "points": [
+      { "point": "福岡・佐賀・北九州", "alf": "NKY" },
+      { "point": "福岡", "alf": "FUK" },
+      { "point": "北九州", "alf": "KKJ" },
+      { "point": "佐賀", "alf": "HSG" },
+      { "point": "大分", "alf": "OIT" },
+      { "point": "熊本", "alf": "KMJ" },
+      { "point": "長崎", "alf": "NGS" },
+      { "point": "対馬", "alf": "TSJ" },
+      { "point": "壱岐", "alf": "IKI" },
+      { "point": "五島福江", "alf": "FUJ" },
+      { "point": "宮崎", "alf": "KMI" },
+      { "point": "鹿児島", "alf": "KOJ" },
+      { "point": "種子島", "alf": "TNE" },
+      { "point": "屋久島", "alf": "KUM" },
+      { "point": "喜界島", "alf": "KKX" },
+      { "point": "与論", "alf": "RNJ" },
+      { "point": "奄美", "alf": "ASJ" },
+      { "point": "徳之島", "alf": "TKN" },
+      { "point": "沖永良部", "alf": "OKE" }
+    ]
+  },
+  {
+    "region": "沖縄",
+    "points": [
+      { "point": "沖縄(那覇)", "alf": "OKA" },
+      { "point": "宮古", "alf": "MMY" },
+      { "point": "石垣", "alf": "ISG" }
+    ]
+  }
+]

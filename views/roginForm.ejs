@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>ログインフォーム</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap-reboot.min.css">
+        <link type="text/css" rel="stylesheet" href="/css/style.css">
+    </head>
+    <body>
+        <section class="container">
+            <div class="mainTitle">
+                <h1 class="title">会員ログイン</h1>
+            </div>
+            <div class="formArea">
+                <form id="form-vali" action="/rogin" method="POST">
+                    <div>
+                        <label for="number">お客様番号</label><span class="errorMsg error-number"></span><br>
+                        <input type="text" id="number" name="number" placeholder="例）1234567890" required>
+                    </div>
+                    <div>
+                        <label for="password">Webパスワード</label><span class="errorMsg error-password"></span><br>
+                        <input type="text" id="password" name="password" placeholder="例）Abc123456" required>
+                    </div>
+                    <div class="formBtn"><button class="submitBtn" type="submit">ログイン</button></div>
+                </form>
+            </div>
+        </section>
+        <script>
+            let userInfo = JSON.parse('<%= JSON.stringify(userInfo) %>'.replace(/&#34;/g, '"'));
+            
+        </script>
+    </body>
+</html>

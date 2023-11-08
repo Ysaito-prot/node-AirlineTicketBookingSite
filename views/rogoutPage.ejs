@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>ログアウト</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap-reboot.min.css">
+        <link type="text/css" rel="stylesheet" href="/css/style.css">
+    </head>
+    <body>
+        <section class="container">
+            <div class="mainTitle">
+                <h1 class="title">ログアウト</h1>
+            </div>
+            <div class="formArea">
+               ログアウトしました
+            </div>
+        </section>
+        <script>
+            let userInfo = JSON.parse('<%= JSON.stringify(userInfo) %>'.replace(/&#34;/g, '"'));
+            
+        </script>
+    </body>
+</html>

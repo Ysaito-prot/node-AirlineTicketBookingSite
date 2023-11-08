@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>航空券予約トップ</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap-reboot.min.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="app">
+            <section class="container">
+                <header class="header">
+                    <div class="headerLogo"><img src="https://www.ana.co.jp/common-layout2/images/www2/logo_ana_tagline.svg" alt="ANA Inspiration of JAPAN" width="260px"></div>
+                    <div class="headerNav">
+                        <ul class="headerNavList">
+                            <li class="headerNavItem">
+                                <div class="icon-box">
+                                    <img class="nav-icon" src="image/booking.png" alt="予約" width="15px">
+                                    <span class="nav-text">予約</span>
+                                </div>
+                            </li>
+                            <li class="headerNavItem">
+                                <div class="icon-box">
+                                    <img class="nav-icon" src="image/contact.png" alt="サポート・お問い合わせ" width="15px">
+                                    <span class="nav-text">サポート・お問い合わせ</span>
+                                </div>
+                            </li>
+                            <li class="headerNavItem join">
+                                <div class="icon-box">
+                                    <img class="nav-icon" src="image/join.png" alt="新規入会" width="15px">
+                                    <span><a class="nav-text jumpForm" href="/registerUserForm">新規入会</a></span>
+                                </div>
+                            </li>
+                            <li class="headerNavItem login">
+                                <div class="icon-box">
+                                    <img class="nav-icon" src="image/rogin.png" alt="ログイン" width="15px">
+                                    <span><a class="nav-text jumpForm" href="/roginForm">ログイン</a></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+                <div class="main">
+                    <div class="contentNav">
+                        <ul class="contentNavList">
+                            <li v-for="item in contentNavItems">{{ item }}</li>
+                        </ul>
+                    </div>
+                    <div class="bookingArea">
+                        <div class="contentSecondNav">
+                            <ul class="contentSecondNavList">
+                                <li v-for="item in contentSecondNavItems">{{ item }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <div class="formArea">
+                        <h2 class="formTitle">ユーザーログイン</h2>
+                        <form id="form-vali" action="/rogin" method="POST">
+                            <div class="hidden">
+                                <label for="name">ユーザー名</label><span class="errorMsg error-name"></span><br>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div>
+                                <label for="mail">ID（メールアドレス）</label><span class="errorMsg error-mail"></span><br>
+                                <input type="text" id="mail" name="mail" required>
+                            </div>
+                            <div>
+                                <label for="password">パスワード</label><span class="errorMsg error-password"></span><br>
+                                <input type="text" id="password" name="password" required>
+                            </div>
+                            <div class="formBtn"><button class="submitBtn" type="submit">ログイン</button></div>
+                        </form>
+                    </div> -->
+                    <div class="reserve-ticket-and-stay_row">
+                        <div class="departure-airport">
+                            <input type="hidden" name="goDeptAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="departure-airport_button js-button" aria-label="行きの出発地を選択 羽田" v-on:click="showModals('departure-airport', '#dialogDpt')"><img class="headerIcon" src="image/takeOff.png" alt="離陸" width="15px"><span>{{ selectDptAirp }}</span></button>
+                        </div>
+                        <div class="reserve-ticket-swap-airport">
+                            <button type="button" class="reserve-ticket-swap-airport__button js-button" aria-label="出発地と到着地の切り替え" @click="replacePoints"><img class="nav-icon" src="image/opposition.png" alt="サポート・お問い合わせ" width="25px"></button>
+                        </div>
+                        <div class="arrival-airport">
+                            <input type="hidden" name="arrivalAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="arrival-airport_button js-button" aria-label="行きの到着地を選択 羽田" v-on:click="showModals('arrival-airport', '#dialogArv')"><img class="headerIcon" src="image/landing.png" alt="着陸" width="15px"><span>{{ selectArvAirp }}</span></button>
+                        </div>
+                    </div>
+                    <div class="calender_row">
+                        <div class="calenderArea">
+                            <input type="hidden" name="goDeptAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="departure-airport_button js-button" aria-label="行きの出発地を選択 羽田" v-on:click="showModals('calenderArea', '#dialogSchedule')"><img class="headerIcon" src="image/booking.png" alt="搭乗日" width="15px"><span>{{ selectSchedule }}</span></button>
+                        </div>
+                        <div class="numPeopleArea">
+                            <input type="hidden" name="arrivalAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="arrival-airport_button js-button" aria-label="行きの到着地を選択 羽田" v-on:click="showModals('numPeopleArea', '#dialogNum')"><img class="headerIcon" src="image/numOfPeople.png" alt="人数" width="15px"><span>{{ selectNum }}人</span></button>
+                        </div>
+                    </div>
+                    <div class="class_row">
+                        <div class="classArea">
+                            <input type="hidden" name="goDeptAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="classArea_button js-button" aria-label="行きの出発地を選択 羽田" v-on:click="showModals('classArea', '#dialogClass')"><span>{{ selectClass }}</span></button>
+                        </div>
+                        <div class="searchArea">
+                            <input type="hidden" name="arrivalAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="searchArea_button js-button" aria-label="行きの到着地を選択 羽田" v-on:click="showModals('searchArea', '#dialogSearch')"><span>{{ selectMethod }}</span></button>
+                        </div>
+                        <div class="searchBtn">
+                            <input type="hidden" name="goDeptAirpCd" value="HND" class="js-input-airport">
+                            <button type="button" class="search_button js-button" aria-label="行きの出発地を選択 羽田"><span>検索する</span><img class="footerIcon" src="image/search.png" alt="離陸" width="20px"></button>
+                        </div>
+                    </div>
+                    <dialog id="dialogDpt" class="dialogItem">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">出発地を選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogDpt')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <ul class="regionList scroll">
+                                <li class="regionListItem" :key="idx" v-for="(item, idx) in areas">
+                                    <div class="regionBtn accordion__toggle" :class="{ 'is-active': isOpenDpt[idx] }" @click="departureHandleToggle(idx)">
+                                        <div class="regionName">{{item.region}}</div>
+                                    </div>
+                                    <transition name="topSlide" @before-enter="beforeEnter" @enter="enter" @before-leave="beforeLeave" @leave="leave">
+                                        <div class="list-accordion__body topSlide" v-if="isOpenDpt[idx]" :class="{'is-open': isActive}">
+                                            <ul class="pointList">
+                                                <li class="pointListItem" :key="idx" v-for="(item1, idx) in item.points">
+                                                    <div class="pointBtn" @click="inptSelected(item1.point, '#dialogDpt')">
+                                                        <div class="pointNameAlf"><span class="pointName">{{item1.point}}</span><span class="pointAlf">{{item1.alf}}</span></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </transition>
+                                </li>
+                            </ul>
+                        </div>
+                    </dialog>
+                    <dialog id="dialogArv" class="dialogItem">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">到着地を選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogArv')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <ul class="regionList scroll">
+                                <li class="regionListItem" :key="idx" v-for="(item, idx) in areas">
+                                    <div class="regionBtn accordion__toggle" :class="{ 'is-active': isOpenArv[idx] }" @click="arriveHandleToggle(idx)">
+                                        <div class="regionName">{{item.region}}</div>
+                                    </div>
+                                    <transition name="topSlide" @before-enter="beforeEnter" @enter="enter" @before-leave="beforeLeave" @leave="leave">
+                                        <div class="list-accordion__body topSlide" v-if="isOpenArv[idx]" :class="{'is-open': isActive}">
+                                            <ul class="pointList">
+                                                <li class="pointListItem" :key="idx" v-for="(item1, idx) in item.points">
+                                                    <div class="pointBtn" @click="inptSelected(item1.point, '#dialogArv')">
+                                                        <div class="pointNameAlf"><span class="pointName">{{item1.point}}</span><span class="pointAlf">{{item1.alf}}</span></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </transition>
+                                </li>
+                            </ul>
+                        </div>
+                    </dialog>
+                    <dialog id="dialogSchedule" class="dialogItem schedule">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">日付を選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogSchedule')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <div class="calendars">
+                                <div class="thisMonth"><span @click="jumpThisMonth">今月</span></div>
+                                <div class="prevNextBtn">
+                                    <div class='prevBtn' @click='previousMonth'>＜</div>
+                                    <div class='nextBtn' @click='nextMonth'>＞</div>
+                                </div>
+                                <div class="calendarArea">
+                                    <div class="calendarItem" :key="idx" v-for="(item, idx) in calendarMonthsYears">
+                                        <div class="tableHeader">
+                                            <div class='tableText'>{{ item.id[0] }}年{{ item.id[1] }}月</div>
+                                        </div>
+                                        <table class="mainCalendar">
+                                            <thead>
+                                                <tr>
+                                                    <th v-for="dayItem in dayOfweek">{{ dayItem }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[0]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[1]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[2]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[3]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr v-if='item.calendar[4]'>
+                                                    <td v-for='date in item.calendar[4]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr v-if='item.calendar[5]'>
+                                                    <td v-for='date in item.calendar[5]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scheduleConfirmBtn">
+                            <div class="selectedPeriod">{{ typeChangeDate[0] }} 〜 {{ typeChangeDate[1] }}</div><button type="button" class="scheduleConfirmBtn_button js-button" aria-label="行きの出発地を選択 羽田" @click="confirm('schedule')"><span>決定</span></button>
+                        </div>
+                    </dialog>
+                    <dialog id="dialogNum" class="dialogItem">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">人数を選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogNum')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <ul class="regionList">
+                                <li class="regionListItem" :key="idx" v-for="(item, idx) in option.NumOfPeople">
+                                    <div class="regionBtn" :class="{ 'is-active': isOpenArv[idx] }">
+                                        <div class="regionName num">
+                                            <span>{{item}}</span>
+                                            <div class="incDecBtns">
+                                                <div class="incBtn" @click="dec(item,$event)">⊝</div>
+                                                <div class="peopleNum">0</div>
+                                                <div class="decBtn" @click="inc(item,$event)">⊕</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="aboutArea">
+                                        <a href="" class="aboutText">小児・幼児について</a>
+                                        <img class="nav-icon" src="image/card.png" alt="サポート・お問い合わせ" width="15px">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="confirmBtn">
+                            <button type="button" class="confirmBtn_button js-button" aria-label="行きの出発地を選択 羽田" @click="confirm('num')"><span>決定</span></button>
+                        </div>
+                    </dialog>
+                    <dialog id="dialogClass" class="dialogItem">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">搭乗クラスを選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogClass')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <ul class="regionList">
+                                <li class="regionListItem" :key="idx" v-for="(item, idx) in option.class" @click="inptSelected(item, '#dialogClass')">
+                                    <div class="regionBtn" :class="{ 'is-active': isOpenArv[idx] }">
+                                        <div class="regionName">{{item}}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </dialog>
+                    <dialog id="dialogSearch" class="dialogItem">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">検索方法を選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogSearch')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <ul class="regionList">
+                                <li class="regionListItem" :key="idx" v-for="(item, idx) in option.method" @click="inptSelected(item, '#dialogSearch')">
+                                    <div class="regionBtn" :class="{ 'is-active': isOpenArv[idx] }">
+                                        <div class="regionName">{{item}}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </dialog>
+                </div>
+            </section>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    contentNavItems: ["予約", "運行状況", "国内線予約確認", "国内ツアー予約確認", "チェックイン", "領収書"],
+                    contentSecondNavItems: ["航空券", "航空券＋宿泊", "特典航空券", "ホテル", "レンタカー", "アクティビティ", "ゴルフ"],
+                    areas: [],
+                    option: [],
+                    active: false,
+                    isActive: false,
+                    view: null,
+                    isOpenDpt: [],
+                    isOpenArv: [],
+                    selectDptAirp: "東京(羽田)",
+                    selectArvAirp: "東京(羽田)",
+                    saveDptAirp: "東京(羽田)",
+                    saveArvAirp: "東京(羽田)",
+                    selectSchedule: "初期値(本日から7・8日後の日付が自動入力される)",
+                    selectNum: 1,
+                    selectClass: "普通席",
+                    selectMethod: "搭乗日で検索",
+                    adultNum: 0,
+                    childNum: 0,
+                    infantNum: 0,
+                    // カレンダー部分
+                    dayOfweek: ["日", "月", "火", "水", "木", "金", "土"],
+                    monthlyCalendar: [],
+                    saveDate: [],
+                    calendarMonthsYears: [{ id: [], calendar: [] }, { id: [], calendar: [] }, { id: [], calendar: [] }],
+                    selectedDateAfter13: [],
+                    dateOfNum: [],
+                    hover: true,
+                    typeChangeDate: [],
+                },
+                created: async function () {
+                    const res = await fetch("areas.json");
+                    const users = await res.json();
+                    this.areas = users;
+                    const res1 = await fetch("option.json");
+                    const users1 = await res1.json();
+                    this.option = users1;
+
+                    // アコーディオンの数だけ開閉フラグを作成
+                    this.isOpenDpt = Array(this.areas.length).fill(false);
+                    this.isOpenArv = Array(this.areas.length).fill(false);
+                },
+                mounted() {
+                    this.getCurrentYear();
+                    this.getMonthlyCalendar();
+
+                    this.getCurrentFullDate();
+                },
+                computed: {
+                    firstWday() {
+                        let firstWdays = [];
+                        for (let i = 0; i < 3; i++) {
+                            firstWdays.push(new Date(this.calendarMonthsYears[i].id[0], this.calendarMonthsYears[i].id[1] - 1, 1).getDay())
+                        }
+                        return firstWdays;
+                    },
+                    lastDate() {
+                        let lastDays = [];
+                        for (let i = 0; i < 3; i++) {
+                            lastDays.push(new Date(this.calendarMonthsYears[i].id[0], this.calendarMonthsYears[i].id[1], 0).getDate())
+                        }
+                        return lastDays;
+                    }
+                },
+                methods: {
+                    // ダイアログの表示
+                    showModals(x, y) {
+                        let targetDialog = document.querySelector(y);
+                        this.viewDialog(x, y);
+                        targetDialog.showModal();
+                    },
+                    // ダイアログを閉じる
+                    closes(x) {
+                        let targetDialog = document.querySelector(x);
+                        targetDialog.close();
+                    },
+                    // 出発地メニューを開閉する
+                    departureHandleToggle(index) {
+                        this.isOpenDpt.splice(index, 1, !this.isOpenDpt[index])
+                    },
+                    // 到着地メニューを開閉する
+                    arriveHandleToggle(index) {
+                        this.isOpenArv.splice(index, 1, !this.isOpenArv[index])
+                    },
+                    // スライド開閉要素の高さ取得
+                    beforeEnter(el) {
+                        el.style.height = '0'
+                    },
+                    enter(el) {
+                        el.style.height = el.scrollHeight + 'px'
+                    },
+                    beforeLeave(el) {
+                        el.style.height = el.scrollHeight + 'px'
+                    },
+                    leave(el) {
+                        el.style.height = '0'
+                    },
+                    // 出発地・到着地ボタンへ選択データの表示(ここから開始（一つにまとめる）)
+                    inptSelected(x, y) {
+                        if (y === '#dialogDpt') {
+                            this.selectDptAirp = x;
+                        }
+                        if (y === '#dialogArv') {
+                            this.selectArvAirp = x;
+                        }
+                        if (y === '#dialogSchedule') {
+                            this.selectSchedule = x;
+                        }
+                        if (y === '#dialogNum') {
+                            this.selectNum = x;
+                        }
+                        if (y === '#dialogClass') {
+                            this.selectClass = x;
+                        }
+                        if (y === '#dialogSearch') {
+                            this.selectMethod = x;
+                        }
+                        this.closes(y)
+                    },
+                    // 出発地・到着地セレクトダイアログの表示
+                    viewDialog: function (elem, y) {
+                        var element = document.getElementsByClassName(elem)[0];
+                        var rect = element.getBoundingClientRect();
+                        var elemtop = rect.top;
+                        var elemleft = rect.x;
+                        var target = document.querySelector(y);
+                        target.style.top = elemtop + 65 + 'px';
+                        target.style.left = elemleft + 'px';
+
+                        let regionName = document.querySelectorAll('.regionName');
+                        if (y === '#dialogNum') {
+                            for (i = 0; i < regionName.length; i++) {
+                                regionName[i].style.padding = '30px 0';
+                            }
+                        } else {
+                            for (i = 0; i < regionName.length; i++) {
+                                regionName[i].style.padding = '10px 0';
+                            }
+                        }
+                    },
+                    // 出発地・到着地の入れ替え
+                    replacePoints() {
+                        // 選択データを一時保存
+                        this.saveDptAirp = this.selectDptAirp;
+                        this.saveArvAirp = this.selectArvAirp;
+                        // 選択データを入れ替え
+                        this.selectDptAirp = this.saveArvAirp;
+                        this.selectArvAirp = this.saveDptAirp;
+                    },
+                    // 人数選択ボタン
+                    inc(x, event) {
+                        if (x === '大人（12歳以上）' && this.adultNum < 6) {
+                            this.adultNum++;
+                            event.target.previousElementSibling.innerText = this.adultNum;
+                        }
+                        if (x === '小児（3歳～11歳）' && this.childNum < 6) {
+                            this.childNum++;
+                            event.target.previousElementSibling.innerText = this.childNum;
+                        }
+                        if (x === '幼児（0歳～2歳）' && this.infantNum < 6) {
+                            this.infantNum++;
+                            event.target.previousElementSibling.innerText = this.infantNum;
+                        }
+                    },
+                    dec(x, event) {
+                        if (x === '大人（12歳以上）' && this.adultNum != 0) {
+                            this.adultNum--;
+                            event.target.nextElementSibling.innerText = this.adultNum;
+                        }
+                        if (x === '小児（3歳～11歳）' && this.childNum != 0) {
+                            this.childNum--;
+                            event.target.nextElementSibling.innerText = this.childNum;
+                        }
+                        if (x === '幼児（0歳～2歳）' && this.infantNum != 0) {
+                            this.infantNum--;
+                            event.target.nextElementSibling.innerText = this.infantNum;
+                        }
+                    },
+                    // 人数決定ボタン
+                    confirm(x) {
+                        if (x === "num") {
+                            this.selectNum = this.adultNum + this.childNum + this.infantNum;
+                            this.closes('#dialogNum');
+                        }
+                        if (x === "schedule") {
+                            this.selectSchedule = `${this.saveDate[0]} - ${this.saveDate[1]}`;
+                            this.closes('#dialogSchedule');
+                        }
+                    },
+                    // 日程選択画面
+                    getCurrentYear() {
+                        // 3ヶ月分の西暦と月を格納
+                        for (let i = 0; i < 3; i++) {
+                            if (new Date().getMonth() + 1 + i === 13) {
+                                this.calendarMonthsYears[i].id = [new Date().getFullYear() + 1, 1]
+                            } else if (new Date().getMonth() + 1 + i === 14) {
+                                this.calendarMonthsYears[i].id = [new Date().getFullYear() + 1, 2]
+                            } else {
+                                this.calendarMonthsYears[i].id = [new Date().getFullYear(), new Date().getMonth() + 1 + i]
+                            }
+                        }
+                    },
+                    getMonthlyCalendar() {
+                        for (let i = 0; i < this.calendarMonthsYears.length; i++) {
+                            let weeklyCalendar = [];
+                            if (this.firstWday[i] >= 1) {
+                                for (let blank = 0; blank < this.firstWday[i]; blank++) {
+                                    weeklyCalendar.push({ 'year': '', 'month': '', 'date': '', 'fullDate': '' })
+                                }
+                            } else if (this.firstWday[i] === 6) {
+                                weeklyCalendar.push({ 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' })
+                            }
+                            for (let date = 1; date < this.lastDate[i] + 1; date++) {
+                                weeklyCalendar.push({ 'year': this.calendarMonthsYears[i].id[0], 'month': this.calendarMonthsYears[i].id[1], 'date': date, 'fullDate': this.calendarMonthsYears[i].id[0] + "年" + this.calendarMonthsYears[i].id[1] + "月" + date + "日" })
+                                if (weeklyCalendar.length % 7 === 0 || date === this.lastDate[i]) {
+                                    this.monthlyCalendar.push(weeklyCalendar)
+                                    weeklyCalendar = []
+                                }
+                            }
+                            this.calendarMonthsYears[i].calendar = this.monthlyCalendar;
+                            this.monthlyCalendar = []
+                        }
+                    },
+                    previousMonth() {
+                        this.calendarMonthsYears.pop();
+                        this.calendarMonthsYears.unshift({ id: [], calendar: [] });
+                        if (this.calendarMonthsYears[1].id[1] === 1) {
+                            this.calendarMonthsYears[0].id = [this.calendarMonthsYears[1].id[0] - 1, 12]
+                        } else {
+                            this.calendarMonthsYears[0].id = [this.calendarMonthsYears[1].id[0], this.calendarMonthsYears[1].id[1] - 1]
+                        }
+                        this.getMonthlyCalendar();
+                    },
+                    nextMonth() {
+                        this.calendarMonthsYears.shift();
+                        this.calendarMonthsYears.push({ id: [], calendar: [] });
+                        if (this.calendarMonthsYears[1].id[1] === 12) {
+                            this.calendarMonthsYears[2].id = [this.calendarMonthsYears[1].id[0] + 1, 1]
+                        } else {
+                            this.calendarMonthsYears[2].id = [this.calendarMonthsYears[1].id[0], this.calendarMonthsYears[1].id[1] + 1]
+                        }
+                        this.getMonthlyCalendar();
+                    },
+                    // 日程選択
+                    dateClick(date) {
+                        if (this.saveDate.length === 2) {
+                            this.saveDate = [];
+                            this.dateOfNum = [];
+                        }
+                        if (date != this.saveDate[0] && date.fullDate != "") {
+                            if (this.saveDate.length === 0) {
+                                this.hover = false;
+                                this.saveDate.push(date.fullDate);
+                                if (this.saveDate.length === 1) {
+                                    // 選択日の月の最終日を取得
+                                    let selectedLastDay = new Date(date.year, date.month, 0).getDate();
+                                    let result = selectedLastDay - date.date;
+                                    if (result >= 14) {
+                                        for (let i = 1; i < 14; i++) {
+                                            date.date++;
+                                            this.selectedDateAfter13.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                            this.dateOfNum.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                        }
+                                        // カレンダーが変な数字にならないように元の値に戻す
+                                        date.date = date.date - 13;
+                                    }
+                                    if (result < 14) {
+                                        for (let a = 0; a < result; a++) {
+                                            date.date++;
+                                            this.selectedDateAfter13.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                            this.dateOfNum.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                        }
+                                        // カレンダーが変な数字にならないように元の値に戻す
+                                        date.date = date.date - result;
+
+                                        for (let i = 0; i < 13 - result; i++) {
+                                            if (date.month === 12) {
+                                                this.selectedDateAfter13.push(date.year + 1 + "年" + 1 + "月" + (1 + i) + "日");
+                                                this.dateOfNum.push(date.year + 1 + "年" + 1 + "月" + (1 + i) + "日");
+                                            }
+                                            if (date.month != 12) {
+                                                this.selectedDateAfter13.push(date.year + "年" + (date.month + 1) + "月" + (1 + i) + "日");
+                                                this.dateOfNum.push(date.year + "年" + (date.month + 1) + "月" + (1 + i) + "日");
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (this.saveDate.length === 1 && this.selectedDateAfter13.includes(date.fullDate)) {
+                                this.hover = true;
+                                this.saveDate.push(date.fullDate);
+                            }
+                            if (this.saveDate.length === 2) {
+                                let period = this.dateOfNum.indexOf(date.fullDate);
+                                for (let i = 0; i < 13 - period; i++) {
+                                    this.dateOfNum.pop();
+                                }
+                                this.selectedDateAfter13 = [];
+                            }
+                        }
+                    },
+                    jumpThisMonth() {
+                        this.getCurrentYear();
+                        this.getMonthlyCalendar();
+                    },
+                    // 本日から7-8日後の日付を取得しトップ画面に自動入力する関数
+                    getCurrentFullDate() {
+                        const now = new Date();
+                        const currentYear = now.getFullYear();
+                        const currentMonth = now.getMonth() + 1;
+                        const currentDate = now.getDate();
+                        // 今月の最終日を取得
+                        let thisMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+                        let thisMonthResult = thisMonthLastDay - currentDate;
+                        if (thisMonthResult >= 7) {
+                            for (let i = 7; i < 9; i++) {
+                                this.saveDate.push(`${currentYear}年${currentMonth}月${currentDate + i}日`);
+                            }
+                        }
+                        if (thisMonthResult < 7) {
+                            for (let i = 0; i < 2; i++) {
+                                if (currentMonth === 12) {
+                                    this.saveDate.push(`${currentYear + 1}年1月${7 - thisMonthResult + i}日`);
+                                } else {
+                                    this.saveDate.push(`${currentYear}年${currentMonth + 1}月${7 - thisMonthResult + i}日`);
+                                }
+                            }
+                        }
+                        // トップ画面に表示
+                        this.selectSchedule = `${this.saveDate[0]} - ${this.saveDate[1]}`;
+                    },
+                    // 「xx年xx月xx日」文字列をyyyy/mm/dd型に変換する関数
+                    saveTypeChange(x) {
+                        this.typeChangeDate = [];
+                        for (let i = 0; i < x.length; i++) {
+                            let a = x[i].replace("年", "/");
+                            let b = a.replace("月", "/");
+                            let c = b.replace("日", "");
+                            this.typeChangeDate.push(c);
+                        }
+                        if (x.length === 1) {
+                            this.typeChangeDate.push("復路を選択してください");
+                        }
+                    },
+                },
+                watch: {
+                    saveDate: function (x) {
+                        if (this.saveDate.length >= 1) {
+                            this.saveTypeChange(x);
+                        }
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
