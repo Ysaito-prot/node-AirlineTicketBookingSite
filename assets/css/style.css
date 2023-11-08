@@ -3,6 +3,14 @@
 /*-------------------------
   トップページ
 -------------------------*/
+a {
+  color: #000;
+  text-decoration: none;
+}
+a:hover {
+  color: #000;
+  text-decoration: none;
+}
 li {
   list-style: none;
 }
@@ -55,7 +63,12 @@ li {
   font-size: 0.9rem;
   font-weight: bold;
 }
-
+.jumpForm {
+  color: #fff;
+}
+.jumpForm:hover {
+  color: #fff;
+}
 .contentNavList {
   display: flex;
   column-gap: 20px;
@@ -169,16 +182,22 @@ li {
 }
 
 .confirmBtn {
-  width: 50%;
-  height: 60px;
-  margin: 0 0 0 auto;
-  /* display: flex; */
+  width: 150px;
+  /* height: 60px; */
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0 10px auto;
   margin-right: 10px;
+}
+.scheduleConfirmBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
 }
 
 .confirmBtn_button {
   background-color: #00146e;
-  /* border-color: #949499; */
   border-radius: 30px;
   border-style: solid;
   border-width: 1px;
@@ -190,6 +209,24 @@ li {
   padding-right: 15px;
   text-align: center;
   width: 100%;
+}
+.scheduleConfirmBtn_button {
+  background-color: #00146e;
+  border-radius: 30px;
+  border-style: solid;
+  border-width: 1px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  height: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center;
+  width: 20%;
+}
+.selectedPeriod {
+  width: 300px;
+  height: 30px;
 }
 
 .reserve-ticket-swap-airport {
@@ -230,17 +267,15 @@ li {
   left: 1px;
 }
 
+.dialogItem.schedule {
+  width: 73%;
+}
+
 .dialogItem Button {
   border: none;
 }
 
 .regionList {
-  /*表示するスクロールバーの高さを調整。今回は月がスクロールなしで入る高さにした*/
-  max-height: 330px;
-  /*スクロールバーを表示する*/
-  overflow: scroll;
-  /*デフォルトで水平方向のスクロールバーが入ってくるので非表示にする*/
-  overflow-x: hidden;
   margin-top: 0px;
   padding: 0;
   border-top: 1px solid #000;
@@ -250,6 +285,15 @@ li {
 .regionList li {
   width: 100%;
   margin: auto;
+}
+
+.scroll {
+  /*表示するスクロールバーの高さを調整。今回は月がスクロールなしで入る高さにした*/
+  max-height: 330px;
+  /*スクロールバーを表示する*/
+  overflow: scroll;
+  /*デフォルトで水平方向のスクロールバーが入ってくるので非表示にする*/
+  overflow-x: hidden;
 }
 
 .dialog__header {
@@ -327,12 +371,18 @@ li {
 
 .regionName.num {
   display: flex;
+  justify-content: space-between;
 }
 .incDecBtns {
   display: flex;
   column-gap: 1rem;
   position: relative;
-  left: 70px;
+}
+.aboutArea {
+  padding: 30px 16px;
+}
+.aboutText {
+  font-size: 0.9rem;
 }
 /*-------------------------
   アコーディオン表示
@@ -397,12 +447,24 @@ li {
   カレンダー表示
 -------------------------*/
 .calendars {
-  width:1100px;
-  display: flex;
-  column-gap: 20px;
+  width: 100%;
+  margin: auto;
+  padding: 20px 50px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
-.calendarItem {
-  width: 265px;
+.thisMonth span {
+  border-bottom: 1px solid;
+}
+.prevNextBtn {
+  display: flex;
+  justify-content: space-between;
+  position:relative;
+  top: 20px;
+}
+.calendarArea {
+  display: flex;
+  justify-content: space-between;
 }
 .tableHeader {
   width: 150px;
@@ -413,9 +475,8 @@ li {
   margin: auto;
   text-align: center;
 }
-table {
-  border-collapse: separate;
-  border-spacing: 2px 2px;
+.mainCalendar {
+  margin: 20px 0 0 0;
 }
 th,
 td {
@@ -426,13 +487,31 @@ td {
   font-size: 0.9rem;
   font-weight: bold;
 }
-td:hover {
-  border-radius: 50%;
-  border: 2px solid #ccc;
+.hoverDate:hover {
+  outline: 2px solid #ccc;
+  outline-offset: -2px;
+}
+.hoverDate2:hover {
+  /* border: 2px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 50%; */
+  outline: 2px solid #ccc;
+  outline-offset: -2px;
 }
 td:nth-of-type(1) {
   color: #ff0000;
 }
 td:nth-of-type(7) {
   color: #002bad;
+}
+.colorChangeGlay {
+  color: rgb(188, 192, 192) !important;
+}
+.is-selected {
+  color: #fff !important;
+  background-color: #0a0073;
+  opacity: 1;
+}
+.numOfDays {
+  background-color: #eaeaea;
 }

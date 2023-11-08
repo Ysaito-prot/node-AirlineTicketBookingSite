@@ -28,13 +28,13 @@
                             <li class="headerNavItem join">
                                 <div class="icon-box">
                                     <img class="nav-icon" src="image/join.png" alt="新規入会" width="15px">
-                                    <span class="nav-text">新規入会</span>
+                                    <span><a class="nav-text jumpForm" href="/registerUserForm">新規入会</a></span>
                                 </div>
                             </li>
                             <li class="headerNavItem login">
                                 <div class="icon-box">
                                     <img class="nav-icon" src="image/rogin.png" alt="ログイン" width="15px">
-                                    <span class="nav-text">ログイン</span>
+                                    <span><a class="nav-text jumpForm" href="/roginForm">ログイン</a></span>
                                 </div>
                             </li>
                         </ul>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <div class="dialog__body ps ps--active-y">
-                            <ul class="regionList">
+                            <ul class="regionList scroll">
                                 <li class="regionListItem" :key="idx" v-for="(item, idx) in areas">
                                     <div class="regionBtn accordion__toggle" :class="{ 'is-active': isOpenDpt[idx] }" @click="departureHandleToggle(idx)">
                                         <div class="regionName">{{item.region}}</div>
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                         <div class="dialog__body ps ps--active-y">
-                            <ul class="regionList">
+                            <ul class="regionList scroll">
                                 <li class="regionListItem" :key="idx" v-for="(item, idx) in areas">
                                     <div class="regionBtn accordion__toggle" :class="{ 'is-active': isOpenArv[idx] }" @click="arriveHandleToggle(idx)">
                                         <div class="regionName">{{item.region}}</div>
@@ -162,6 +162,60 @@
                                     </transition>
                                 </li>
                             </ul>
+                        </div>
+                    </dialog>
+                    <dialog id="dialogSchedule" class="dialogItem schedule">
+                        <div class="dialog--show">
+                            <div class="dialog__header">
+                                <h5 class="dialog__title">日付を選択</h5>
+                                <button class="modalBtn" v-on:click="closes('#dialogSchedule')">×</button>
+                            </div>
+                        </div>
+                        <div class="dialog__body ps ps--active-y">
+                            <div class="calendars">
+                                <div class="thisMonth"><span @click="jumpThisMonth">今月</span></div>
+                                <div class="prevNextBtn">
+                                    <div class='prevBtn' @click='previousMonth'>＜</div>
+                                    <div class='nextBtn' @click='nextMonth'>＞</div>
+                                </div>
+                                <div class="calendarArea">
+                                    <div class="calendarItem" :key="idx" v-for="(item, idx) in calendarMonthsYears">
+                                        <div class="tableHeader">
+                                            <div class='tableText'>{{ item.id[0] }}年{{ item.id[1] }}月</div>
+                                        </div>
+                                        <table class="mainCalendar">
+                                            <thead>
+                                                <tr>
+                                                    <th v-for="dayItem in dayOfweek">{{ dayItem }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[0]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[1]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[2]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td v-for='date in item.calendar[3]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr v-if='item.calendar[4]'>
+                                                    <td v-for='date in item.calendar[4]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                                <tr v-if='item.calendar[5]'>
+                                                    <td v-for='date in item.calendar[5]' :key='date.id' @click="dateClick(date)" v-bind:class="{'colorChangeGlay':selectedDateAfter13.includes(date.fullDate) === false && selectedDateAfter13.length != 0,'is-selected': saveDate.includes(date.fullDate),'numOfDays': dateOfNum.includes(date.fullDate) && saveDate.length === 2,'hoverDate': date.fullDate != '' && hover === true,'hoverDate2':selectedDateAfter13.includes(date.fullDate)}">{{ date.date }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scheduleConfirmBtn">
+                            <div class="selectedPeriod">{{ typeChangeDate[0] }} 〜 {{ typeChangeDate[1] }}</div><button type="button" class="scheduleConfirmBtn_button js-button" aria-label="行きの出発地を選択 羽田" @click="confirm('schedule')"><span>決定</span></button>
                         </div>
                     </dialog>
                     <dialog id="dialogNum" class="dialogItem">
@@ -185,10 +239,16 @@
                                         </div>
                                     </div>
                                 </li>
+                                <li>
+                                    <div class="aboutArea">
+                                        <a href="" class="aboutText">小児・幼児について</a>
+                                        <img class="nav-icon" src="image/card.png" alt="サポート・お問い合わせ" width="15px">
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                         <div class="confirmBtn">
-                            <button type="button" class="confirmBtn_button js-button" aria-label="行きの出発地を選択 羽田" @click="confirmNum"><span>決定</span></button>
+                            <button type="button" class="confirmBtn_button js-button" aria-label="行きの出発地を選択 羽田" @click="confirm('num')"><span>決定</span></button>
                         </div>
                     </dialog>
                     <dialog id="dialogClass" class="dialogItem">
@@ -226,42 +286,6 @@
                         </div>
                     </dialog>
                 </div>
-                <div class="calendars">
-                    <div class='prevBtn' @click='previousMonth'>＜</div>
-                    <div class="calendarItem" :key="idx" v-for="(item, idx) in calendarMonthsYears">
-                        <div class="tableHeader">
-                            <div class='tableText'>{{ item.id[0] }}年{{ item.id[1] }}月</div>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th v-for="dayItem in dayOfweek">{{ dayItem }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td v-for='date in item.calendar[0]' :key='date.id' @click="dateClick(date.fullDate)">{{ date.date }}</td>
-                                </tr>
-                                <tr>
-                                    <td v-for='date in item.calendar[1]' :key='date.id' @click="dateClick(date.fullDate)">{{ date.date }}</td>
-                                </tr>
-                                <tr>
-                                    <td v-for='date in item.calendar[2]' :key='date.id' @click="dateClick(date.fullDate)">{{ date.date }}</td>
-                                </tr>
-                                <tr>
-                                    <td v-for='date in item.calendar[3]' :key='date.id' @click="dateClick(date.fullDate)">{{ date.date }}</td>
-                                </tr>
-                                <tr v-if='item.calendar[4]'>
-                                    <td v-for='date in item.calendar[4]' :key='date.id' @click="dateClick(date.fullDate)">{{ date.date }}</td>
-                                </tr>
-                                <tr v-if='item.calendar[5]'>
-                                    <td v-for='date in item.calendar[5]' :key='date.id' @click="dateClick(date.fullDate)">{{ date.date }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class='nextBtn' @click='nextMonth'>＞</div>
-                </div>
             </section>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -282,7 +306,7 @@
                     selectArvAirp: "東京(羽田)",
                     saveDptAirp: "東京(羽田)",
                     saveArvAirp: "東京(羽田)",
-                    selectSchedule: "2023年11月2日 - 2023年11月3日",
+                    selectSchedule: "初期値(本日から7・8日後の日付が自動入力される)",
                     selectNum: 1,
                     selectClass: "普通席",
                     selectMethod: "搭乗日で検索",
@@ -293,7 +317,11 @@
                     dayOfweek: ["日", "月", "火", "水", "木", "金", "土"],
                     monthlyCalendar: [],
                     saveDate: [],
-                    calendarMonthsYears: [{id: [],calendar:[]},{id: [],calendar:[]},{id: [],calendar:[]}],
+                    calendarMonthsYears: [{ id: [], calendar: [] }, { id: [], calendar: [] }, { id: [], calendar: [] }],
+                    selectedDateAfter13: [],
+                    dateOfNum: [],
+                    hover: true,
+                    typeChangeDate: [],
                 },
                 created: async function () {
                     const res = await fetch("areas.json");
@@ -310,18 +338,20 @@
                 mounted() {
                     this.getCurrentYear();
                     this.getMonthlyCalendar();
+
+                    this.getCurrentFullDate();
                 },
                 computed: {
                     firstWday() {
                         let firstWdays = [];
-                        for(let i = 0;i<3;i++){
-                            firstWdays.push(new Date(this.calendarMonthsYears[i].id[0], this.calendarMonthsYears[i].id[1]-1, 1).getDay())
+                        for (let i = 0; i < 3; i++) {
+                            firstWdays.push(new Date(this.calendarMonthsYears[i].id[0], this.calendarMonthsYears[i].id[1] - 1, 1).getDay())
                         }
                         return firstWdays;
                     },
                     lastDate() {
                         let lastDays = [];
-                        for(let i = 0;i<3;i++){
+                        for (let i = 0; i < 3; i++) {
                             lastDays.push(new Date(this.calendarMonthsYears[i].id[0], this.calendarMonthsYears[i].id[1], 0).getDate())
                         }
                         return lastDays;
@@ -442,9 +472,15 @@
                         }
                     },
                     // 人数決定ボタン
-                    confirmNum() {
-                        this.selectNum = this.adultNum + this.childNum + this.infantNum;
-                        this.closes('#dialogNum');
+                    confirm(x) {
+                        if (x === "num") {
+                            this.selectNum = this.adultNum + this.childNum + this.infantNum;
+                            this.closes('#dialogNum');
+                        }
+                        if (x === "schedule") {
+                            this.selectSchedule = `${this.saveDate[0]} - ${this.saveDate[1]}`;
+                            this.closes('#dialogSchedule');
+                        }
                     },
                     // 日程選択画面
                     getCurrentYear() {
@@ -460,17 +496,17 @@
                         }
                     },
                     getMonthlyCalendar() {
-                        for(let i = 0;i<this.calendarMonthsYears.length;i++){
+                        for (let i = 0; i < this.calendarMonthsYears.length; i++) {
                             let weeklyCalendar = [];
                             if (this.firstWday[i] >= 1) {
                                 for (let blank = 0; blank < this.firstWday[i]; blank++) {
-                                    weeklyCalendar.push({'date':'','fullDate':''})
+                                    weeklyCalendar.push({ 'year': '', 'month': '', 'date': '', 'fullDate': '' })
                                 }
                             } else if (this.firstWday[i] === 6) {
-                                weeklyCalendar.push({'date':'','fullDate':''}, {'date':'','fullDate':''}, {'date':'','fullDate':''}, {'date':'','fullDate':''}, {'date':'','fullDate':''}, {'date':'','fullDate':''})
+                                weeklyCalendar.push({ 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' }, { 'year': '', 'month': '', 'date': '', 'fullDate': '' })
                             }
                             for (let date = 1; date < this.lastDate[i] + 1; date++) {
-                                weeklyCalendar.push({'date':date,'fullDate':this.calendarMonthsYears[i].id[0]+"年"+this.calendarMonthsYears[i].id[1]+"月"+date+"日"})
+                                weeklyCalendar.push({ 'year': this.calendarMonthsYears[i].id[0], 'month': this.calendarMonthsYears[i].id[1], 'date': date, 'fullDate': this.calendarMonthsYears[i].id[0] + "年" + this.calendarMonthsYears[i].id[1] + "月" + date + "日" })
                                 if (weeklyCalendar.length % 7 === 0 || date === this.lastDate[i]) {
                                     this.monthlyCalendar.push(weeklyCalendar)
                                     weeklyCalendar = []
@@ -482,7 +518,7 @@
                     },
                     previousMonth() {
                         this.calendarMonthsYears.pop();
-                        this.calendarMonthsYears.unshift({id: [],calendar:[]});
+                        this.calendarMonthsYears.unshift({ id: [], calendar: [] });
                         if (this.calendarMonthsYears[1].id[1] === 1) {
                             this.calendarMonthsYears[0].id = [this.calendarMonthsYears[1].id[0] - 1, 12]
                         } else {
@@ -492,7 +528,7 @@
                     },
                     nextMonth() {
                         this.calendarMonthsYears.shift();
-                        this.calendarMonthsYears.push({id: [],calendar:[]});
+                        this.calendarMonthsYears.push({ id: [], calendar: [] });
                         if (this.calendarMonthsYears[1].id[1] === 12) {
                             this.calendarMonthsYears[2].id = [this.calendarMonthsYears[1].id[0] + 1, 1]
                         } else {
@@ -500,9 +536,113 @@
                         }
                         this.getMonthlyCalendar();
                     },
+                    // 日程選択
                     dateClick(date) {
-                        console.log(date);
-                    }
+                        if (this.saveDate.length === 2) {
+                            this.saveDate = [];
+                            this.dateOfNum = [];
+                        }
+                        if (date != this.saveDate[0] && date.fullDate != "") {
+                            if (this.saveDate.length === 0) {
+                                this.hover = false;
+                                this.saveDate.push(date.fullDate);
+                                if (this.saveDate.length === 1) {
+                                    // 選択日の月の最終日を取得
+                                    let selectedLastDay = new Date(date.year, date.month, 0).getDate();
+                                    let result = selectedLastDay - date.date;
+                                    if (result >= 14) {
+                                        for (let i = 1; i < 14; i++) {
+                                            date.date++;
+                                            this.selectedDateAfter13.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                            this.dateOfNum.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                        }
+                                        // カレンダーが変な数字にならないように元の値に戻す
+                                        date.date = date.date - 13;
+                                    }
+                                    if (result < 14) {
+                                        for (let a = 0; a < result; a++) {
+                                            date.date++;
+                                            this.selectedDateAfter13.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                            this.dateOfNum.push(date.year + "年" + date.month + "月" + date.date + "日");
+                                        }
+                                        // カレンダーが変な数字にならないように元の値に戻す
+                                        date.date = date.date - result;
+
+                                        for (let i = 0; i < 13 - result; i++) {
+                                            if (date.month === 12) {
+                                                this.selectedDateAfter13.push(date.year + 1 + "年" + 1 + "月" + (1 + i) + "日");
+                                                this.dateOfNum.push(date.year + 1 + "年" + 1 + "月" + (1 + i) + "日");
+                                            }
+                                            if (date.month != 12) {
+                                                this.selectedDateAfter13.push(date.year + "年" + (date.month + 1) + "月" + (1 + i) + "日");
+                                                this.dateOfNum.push(date.year + "年" + (date.month + 1) + "月" + (1 + i) + "日");
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (this.saveDate.length === 1 && this.selectedDateAfter13.includes(date.fullDate)) {
+                                this.hover = true;
+                                this.saveDate.push(date.fullDate);
+                            }
+                            if (this.saveDate.length === 2) {
+                                let period = this.dateOfNum.indexOf(date.fullDate);
+                                for (let i = 0; i < 13 - period; i++) {
+                                    this.dateOfNum.pop();
+                                }
+                                this.selectedDateAfter13 = [];
+                            }
+                        }
+                    },
+                    jumpThisMonth() {
+                        this.getCurrentYear();
+                        this.getMonthlyCalendar();
+                    },
+                    // 本日から7-8日後の日付を取得しトップ画面に自動入力する関数
+                    getCurrentFullDate() {
+                        const now = new Date();
+                        const currentYear = now.getFullYear();
+                        const currentMonth = now.getMonth() + 1;
+                        const currentDate = now.getDate();
+                        // 今月の最終日を取得
+                        let thisMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+                        let thisMonthResult = thisMonthLastDay - currentDate;
+                        if (thisMonthResult >= 7) {
+                            for (let i = 7; i < 9; i++) {
+                                this.saveDate.push(`${currentYear}年${currentMonth}月${currentDate + i}日`);
+                            }
+                        }
+                        if (thisMonthResult < 7) {
+                            for (let i = 0; i < 2; i++) {
+                                if (currentMonth === 12) {
+                                    this.saveDate.push(`${currentYear + 1}年1月${7 - thisMonthResult + i}日`);
+                                } else {
+                                    this.saveDate.push(`${currentYear}年${currentMonth + 1}月${7 - thisMonthResult + i}日`);
+                                }
+                            }
+                        }
+                        // トップ画面に表示
+                        this.selectSchedule = `${this.saveDate[0]} - ${this.saveDate[1]}`;
+                    },
+                    // 「xx年xx月xx日」文字列をyyyy/mm/dd型に変換する関数
+                    saveTypeChange(x) {
+                        this.typeChangeDate = [];
+                        for (let i = 0; i < x.length; i++) {
+                            let a = x[i].replace("年", "/");
+                            let b = a.replace("月", "/");
+                            let c = b.replace("日", "");
+                            this.typeChangeDate.push(c);
+                        }
+                        if (x.length === 1) {
+                            this.typeChangeDate.push("復路を選択してください");
+                        }
+                    },
+                },
+                watch: {
+                    saveDate: function (x) {
+                        if (this.saveDate.length >= 1) {
+                            this.saveTypeChange(x);
+                        }
+                    },
                 },
             });
         </script>

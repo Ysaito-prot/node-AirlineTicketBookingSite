@@ -30,4 +30,15 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "html/index.html"));
 });
 
+app.get("/roginForm", (req, res) => {
+  const userInfo = "SELECT * from rogin;";
+
+  con.query(userInfo, function (err, result, fields) {
+    if (err) throw err;
+    res.render("roginForm", {
+      userInfo: result,
+    });
+  });
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
